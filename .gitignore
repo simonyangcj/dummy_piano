@@ -1,0 +1,18 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+dist/
+build/
+
+# 虚拟环境与缓存
+.venv/
+.pytest_cache/
+.ruff_cache/
+
+# 本地测试产物
+/tmp/
+
+# 曲谱目录下生成的播放产物
+play.wav
+play.hash

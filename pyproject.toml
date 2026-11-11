@@ -1,0 +1,41 @@
+[project]
+name = "piano-tui"
+version = "0.1.0"
+description = "终端钢琴乐谱播放器：乐谱截图 → 钢琴音频 + 低音声浪可视化"
+readme = "README.md"
+requires-python = ">=3.10,<3.13"
+dependencies = [
+    "pillow",
+    "numpy",
+    "sounddevice",
+    "soundfile",
+    "oemer",
+    "music21",
+    "pretty_midi",
+    "pyfluidsynth",
+    "rich",
+    "onnxruntime-gpu==1.19.2",
+    "opencv-python-headless<5",
+]
+
+[project.scripts]
+piano-tui = "piano_tui.__main__:main"
+
+[dependency-groups]
+dev = [
+    "pytest",
+    "ruff",
+]
+
+# 使用清华 PyPI 镜像
+[[tool.uv.index]]
+url = "https://pypi.tuna.tsinghua.edu.cn/simple"
+default = true
+
+[tool.ruff.lint]
+# BLE001: 按设计要求，单曲任一步骤失败需捕获宽泛异常后跳过继续
+ignore = ["BLE001"]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
