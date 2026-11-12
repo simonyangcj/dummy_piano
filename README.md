@@ -25,7 +25,6 @@
   ```bash
   sudo apt install fluidsynth libportaudio2 libsndfile1
   ```
-
 - **macOS**
 
   ```bash
@@ -53,6 +52,24 @@ uv run piano-tui --play-list /tmp/myplaylist
 uv run python -m piano_tui --play-list /tmp/myplaylist
 ```
 
+### 预先转换（可选）
+
+不想在播放时等转换，可以提前批量把图片转成 `play.wav`：
+
+```bash
+uv run piano-convert /tmp/myplaylist/安静          # 单曲目录
+uv run piano-convert /tmp/myplaylist               # 播放列表根目录（所有子目录）
+```
+
+
+| 参数          | 说明                                                           |
+| --------------- | ---------------------------------------------------------------- |
+| `directory`   | 必填，单曲目录或播放列表根目录                                 |
+| `--sf2`       | 钢琴 SoundFont 路径，默认从环境变量 `PIANO_SF2` 或当前目录查找 |
+| `--cache-dir` | 缓存目录，默认 `~/.cache/piano-tui`                            |
+
+已转换且图片未改动的曲子会直接跳过；转换产物 `play.wav` / `play.hash` 放在曲谱目录下，之后 `piano-tui` 播放时直接使用。
+
 播放列表结构（每个子目录一首曲子，目录名作为曲名）：
 
 ```
@@ -68,13 +85,14 @@ uv run python -m piano_tui --play-list /tmp/myplaylist
 
 ### 参数
 
-| 参数 | 说明 |
-|---|---|
-| `--play-list` | 必填，播放列表根目录 |
-| `--sf2` | 钢琴 SoundFont 路径，默认从环境变量 `PIANO_SF2` 或当前目录查找 |
-| `--shuffle` | 随机播放顺序，默认按目录名排序 |
-| `--cache-dir` | 缓存目录，默认 `~/.cache/piano-tui` |
-| `--no-loop` | 播完一轮后退出，默认无限循环 |
+
+| 参数          | 说明                                                           |
+| --------------- | ---------------------------------------------------------------- |
+| `--play-list` | 必填，播放列表根目录                                           |
+| `--sf2`       | 钢琴 SoundFont 路径，默认从环境变量 `PIANO_SF2` 或当前目录查找 |
+| `--shuffle`   | 随机播放顺序，默认按目录名排序                                 |
+| `--cache-dir` | 缓存目录，默认 `~/.cache/piano-tui`                            |
+| `--no-loop`   | 播完一轮后退出，默认无限循环                                   |
 
 示例：
 
@@ -100,6 +118,7 @@ piano-tui/
 ├── src/piano_tui/
 │   ├── __init__.py
 │   ├── __main__.py      # 入口，参数解析与主循环
+│   ├── convert.py       # piano-convert：批量预转换图片为 play.wav
 │   ├── pipeline.py      # 合并、OMR、MIDI、音频渲染、缓存
 │   ├── visualizer.py    # 终端频谱可视化
 │   └── controls.py      # 键盘输入

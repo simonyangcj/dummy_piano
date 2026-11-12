@@ -20,6 +20,7 @@ dependencies = [
 
 [project.scripts]
 piano-tui = "piano_tui.__main__:main"
+piano-convert = "piano_tui.convert:main"
 
 [dependency-groups]
 dev = [
